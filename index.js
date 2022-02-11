@@ -1,56 +1,56 @@
-let iniciarGame = "sim";
+
 var prompt = require("prompt-sync")();
 console.clear();
+let iniciarGame = "sim";
+while(iniciarGame == 'sim'){
+let decisao;
+let menu;
+//todas as variaveis usadas no projeto.
+let genero = ["vazio", "feminino", "masculino"];
+validarGenero = [0, 1, 2];
+let respostaGenero;
+let personagem = {
+  nome: "Jogador(a)",
+  idade: 16,
+  peso: 60,
+  altura: 1.5,
+  genero: genero[respostaGenero],
+  nomeCamisa: "",
+};
+let posicao = [
+  "",
+  "goleiro",
+  "zagueiro",
+  "lateral direito",
+  "lateral esquerdo",
+  "volante",
+  "meio de campo",
+  "pivô",
+  "atacante",
+  "ponta direita",
+  "ponta esquerda",
+  "centroavante",
+];
+let status = {
+  dribles: 0,
+  equilibrio: 0,
+  forca: 0,
+  velocidade: 0,
+  resistencia: 0,
+  chute: 0,
+  defesa: 0,
+};
+let statusVida = { fome: 3, energia: 3 };
+let casa = { alimentos: 3, aluguel: 5 };
+let salarioAleatorio;
+let aleatorioCamisa;
+let aleatorio;
+let numeroDaCamisa;
+var time;
+let dormir = 6;
+let tempo = { dia: 1, hora: 6 };
+let durante;
 
-while (iniciarGame == "sim") {
-  //todas as variaveis usadas no projeto.
-  let genero = ["vazio", "feminino", "masculino"];
-  validarGenero = [0, 1, 2];
-  let respostaGenero;
-  let personagem = {
-    nome: "Jogador(a)",
-    idade: 16,
-    peso: 60,
-    altura: 1.5,
-    genero: genero[respostaGenero],
-    nomeCamisa: "",
-  };
-  let posicao = [
-    "",
-    "goleiro",
-    "zagueiro",
-    "lateral direito",
-    "lateral esquerdo",
-    "volante",
-    "meio de campo",
-    "pivô",
-    "atacante",
-    "ponta direita",
-    "ponta esquerda",
-    "centroavante",
-  ];
-  let status = {
-    dribles: 0,
-    equilibrio: 0,
-    forca: 0,
-    velocidade: 0,
-    resistencia: 0,
-    chute: 0,
-    defesa: 0,
-  };
-  let statusVida = { fome: 3, energia: 3 };
-  let casa = { alimentos: 3, aluguel: 5 };
-  let salarioAleatorio;
-  let aleatorioCamisa;
-  let aleatorio;
-  let numeroDaCamisa;
-  var time;
-  let decisao;
-  let dormir = 6;
-  let tempo = { dia: 1, hora: 6 };
-  let durante;
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   function aumentaHabilidade(receber) {
     let status = [
       "dribles",
@@ -162,11 +162,13 @@ while (iniciarGame == "sim") {
             console.log(`Agora você só tem${statusVida.dinheiro}R$ `);
           }
           comprar = prompt("Deseja comprar mais alguma coisa? ");
+          temporizador();
         }
       } else {
         console.log(
           `${personagem.nome} conseguiu comprar todos os itens que precisava. Comprou chuteira nova, suplemento para 1 dia e alimentos para amanhã. `
         );
+        temporizador();
         console.log();
         casa.alimentos = casa.alimentos + 3;
         statusVida.dinheiro = statusVida.dinheiro - 450;
@@ -257,7 +259,6 @@ while (iniciarGame == "sim") {
         console.table(statusVida);
       }
       if (noticiaAleatoria >= 990) {
-        temporizador();
         console.log(
           "PARABÉNS, VOCÉ VAI SAIR NA REVISTA VEJO. SEMPRE FOI SEU SONHO, PORÉM VOCÊ TEM QUE IR ATÉ LÁ AGORA!!! "
         );
@@ -267,6 +268,7 @@ while (iniciarGame == "sim") {
 
         if (perguntaSeria == "sim") {
           while (true) {
+            
             console.log(
               `Ao caminho da vejo, ${personagem.nome} se envolveu em um acidente e acabou não resistindo!!!`
             );
@@ -277,6 +279,7 @@ while (iniciarGame == "sim") {
             break;
           }
           if (perguntaSeria == "nao") {
+            temporizador();
             console.log(
               `${personagem.nome} foi até a vejo para tirar as fotos, logo depois, recebeu a proposta milionaria do Barcelona.`
             );
@@ -291,6 +294,7 @@ while (iniciarGame == "sim") {
                 break;
               }
             } else {
+              temporizador();
               console.log(
                 "VOCÊ RECUSOU O BARCELONA E IRÁ CONTINUAR JOGANDO O JOGO!!"
               );
@@ -352,22 +356,16 @@ while (iniciarGame == "sim") {
   }
 
   function temporizador(resposta) {
-    if (decisao == 1) {
-      tempo.hora = tempo.hora + 2;
-    } else if (decisao == 2) {
-      tempo.hora = tempo.hora + 3;
-    } else if (decisao == 3) {
-      tempo.hora = tempo.hora + 4;
-    } else if (decisao == 4) {
-      tempo.hora = tempo.hora + 5;
-    } else if (decisao == 5) {
-      tempo.hora = tempo.hora + 6;
-    } else if (decisao == 6) {
-      tempo.hora = tempo.hora + 7;
-    }
+    
+     tempo.hora += 2;
+   
     if (tempo.hora >= 24 || decisao == 6) {
       tempo.hora = dormir;
+      casa.aluguel -=1
       tempo.dia++;
+    }
+    if(casa.aluguel == 0){
+      console.log('LEMBRETE!! PAGAR O ALUGUEL EM COMPRAS NECESSARIAS!! VALOR 200R$');
     }
     return [tempo.hora, tempo.dia];
   }
@@ -386,7 +384,7 @@ while (iniciarGame == "sim") {
   }
 
   console.log("---Bem-vindo ao Vida futebolista---");
-  while (iniciarGame == "sim") {
+  
     console.log();
     console.log("--------------MENU--------------");
     console.log();
@@ -398,9 +396,11 @@ while (iniciarGame == "sim") {
     console.log(" -------------SOBRE------------");
 
     console.log();
-    let menu = prompt("DIGITE SUA ESCOLHA: ");
+    do{
 
-    while (menu == 1 || menu == 2 || menu == 3) {
+    menu = prompt("DIGITE SUA ESCOLHA: ");
+
+    }while (menu != 1 && menu != 2 && menu && 3) {
       if (menu == 2) {
         console.log(
           "Olá, tudo bem? espero que sim!!! ABAIXO VOCÊ VAI ENCONTRAR TODO SOBRE O VIDA FUTIBOLISTA."
@@ -425,7 +425,7 @@ while (iniciarGame == "sim") {
         console.log(
           "deseja voltar para o menu? Obs: Se você não voltar o jogo se encerrará!!"
         );
-        iniciarGame = prompt("");
+        
       }
       if (menu == 3) {
         console.log(
@@ -797,6 +797,8 @@ while (iniciarGame == "sim") {
           let pontosJogador = Math.round(somaStatus);
           personagem.pontos = pontosJogador;
 
+          console.clear();
+
           console.log(
             `Seus status foram atualizados por conta da posição que escolheu, habilidades melhoradas foram as seguintes: chute e força  `
           );
@@ -807,7 +809,6 @@ while (iniciarGame == "sim") {
         }
         return [escolhaPosicao, status];
       }
-      console.clear();
 
       console.log(
         `Agora chegou um dos momentos mais importantes para ${personagem.nome}, chegou a hora de escolher em qual posição irá jogar.`
@@ -913,10 +914,13 @@ while (iniciarGame == "sim") {
 
       salario(salarioInicial, resultadoSalario);
       passagemDia(tempo.hora);
-      console.log(statusVida);
+      console.table(statusVida);
+      console.log();
       console.log(
-        `${personagem.nome} seu despertador tocou as ${tempo.hora} ${durante}.Vai receber todas as informações sobre seu primeiro dia no ${personagem.time}.`
+        `SEU DESPERTADOR TOCOU E VOCÊ ACORDOU .HOJE É SEU PRIMEIRO DIA, VOCÊ PODE RECEBER LIGAÇÃO DO ${personagem.time} PARA MAIS INFORMAÇÕES SOBRE OS TREINOS E OUTRAS COISAS.`
       );
+      console.log();
+      console.log(`AGORA SÃO ${tempo.hora} ${durante}, DIA: ${tempo.dia}`);
       console.log();
       console.log(
         `${personagem.nome} seu telefone está tocando, deseja atender? `
@@ -927,7 +931,6 @@ while (iniciarGame == "sim") {
 
       decisao = prompt("");
 
-      temporizador(decisao);
       passagemDia(tempo.hora);
 
       if (decisao == 1) {
@@ -949,14 +952,33 @@ while (iniciarGame == "sim") {
         console.log();
       }
 
+      const roteiroJogo = (roteiroJogo) => {
+
       console.log("Abaixo escolha sua proxima ação... ");
+      console.log();
       perguntasInicias();
-
+      console.log();
       decisao = prompt("");
-
+      console.log();
       verificarPerguntas(decisao);
+      console.log();
+      console.log(`Agora são ${tempo.hora} ${durante}`);
+
+      }
+
+      roteiroJogo();
+      
+
+
+      
+
+
+
+
+
+
+      
     }
-  }
-  iniciarGame = prompt("Deseja recomeçar o jogo? ");
 }
+iniciarGame=prompt('deseja recomeçar o jogo novamente? ');
 }

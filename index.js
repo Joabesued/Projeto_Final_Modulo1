@@ -21,7 +21,49 @@ let tempo = {dia: 1, hora: 6};
 let durante;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function aumentaHabilidade(receber){
 
+    let status = ['dribles','equilibrio','forca','velocidade','resistencia','chute','defesa'];
+    let resultadoAleatorio = Math.floor(Math.random()*status);
+    
+
+    if(resultadoAleatorio >= 1 && resultadoAleatorio <=2){
+        status.dribles +=2
+        status.equilibrio +=2
+
+        let somaStatus = (status.dribles + status.equilibrio + status.forca + status.velocidade + status.resistencia + status.chute + status.defesa)/7;
+        let pontosJogador = Math.round(somaStatus);
+        personagem.pontos = pontosJogador;
+
+        console.log(`${personagem.nome} ganhou +2 em Dribles e +2 em Equilibrio`);
+        console.table(status);
+    }
+    if(resultadoAleatorio >= 3 && resultadoAleatorio <=4){
+        status.forca +=2
+        status.velocidade +=2
+
+        let somaStatus = (status.dribles + status.equilibrio + status.forca + status.velocidade + status.resistencia + status.chute + status.defesa)/7;
+        let pontosJogador = Math.round(somaStatus);
+        personagem.pontos = pontosJogador;
+
+        console.log(`${personagem.nome} ganhou +2 em Força e +2 em Velocidade`);
+        console.table(status);
+    }
+    if(resultadoAleatorio >= 5 && resultadoAleatorio <= 7){
+        status.resistencia +=2
+        status.chute +=2
+        status.defesa +=2
+
+        let somaStatus = (status.dribles + status.equilibrio + status.forca + status.velocidade + status.resistencia + status.chute + status.defesa)/7;
+        let pontosJogador = Math.round(somaStatus);
+        personagem.pontos = pontosJogador;
+
+        console.log(`${personagem.nome} ganhou +2 em Resistencia , +2 Chute e +2 de Desefa`);
+        console.table(status);
+
+    }
+    return [personagem.pontos];
+}
 
 
 
@@ -34,16 +76,16 @@ function perguntasInicias(){
     console.log(` 6- Dormir `);
 }
 
-function verificarPerguntas(receber){
+function verificarPerguntas(receber,receber2){
     let comprar = "sim";
-  
+  //PERGUNTA 1-
     if(decisao == 1){
 
-      if (statusVida.dinheiro == 250 && statusVida.dinheiro == 0) {
+      if (statusVida.dinheiro == 250 || statusVida.dinheiro == 0) {
           console.log("Com essa quantidade de dinheiro vai ser impossivel comprar tudo que precisa. Escolha abaixo o que vai levar.");
           while (comprar == "sim") {
           console.log();
-          console.log("1- Chuteira = 100R$");
+          console.log("1- Chuteiro/equipamentos = 100R$");
           console.log("2- Suplementos = 100R$");
           console.log("3- alimentção em geral = 250R$");
   
@@ -72,8 +114,107 @@ function verificarPerguntas(receber){
           console.log(`Você comprou alimentos, seu estoque foi aumentado para ${casa.alimentos} `);
           console.log(`agora você tem ${statusVida.dinheiro}R$`);
       }
+
     }
+    //PERGUNTA 2
+    else if(decisao == 2){
+        temporizador()
+        console.log('Você realizou um treino pesado, acabou ganhando alguns status. Porém está com mais fome e com menos energia.');
+        statusVida.energia -=2
+        statusVida.fome += 2
+        console.log();
+        console.log('Lembre que antes de todas as partidas precisa ter bons status de fome e energia. Isso influencia 100% na partida!!!');
+        aumentaHabilidade(status);
+        console.table(statusVida);
+
+    }
+    //PERGUNTA 3
+    else if(decisao == 3){
+
+    let noticiaAleatoria = Math.floor(Math.random()*1000);
+
+        if(noticiaAleatoria <= 499){
+            temporizador();
+            console.log('INFELIZMENTE NINGUEM ATENDEU SUAS EXPECTATIVAS!!');
+
+        }
+
+        if(noticiaAleatoria >= 500 && noticiaAleatoria < 600){
+            temporizador();
+            statusVida.fome +=1
+            statusVida.dinheiro += 100;
+            console.log('PARABÉNS!! VOCÊ VAI FAZER UM COMERCIAL PARA UM RESTAURANTE!!');
+            console.log('Você recebeu mais 100R$ pela propagando!!');
+            console.log();
+            console.log(`Seus status foram atualizados, agora você tem ${statusVida.dinheiro}R$`);
+            console.table(statusVida);
+
+        }if(noticiaAleatoria >= 600 && noticiaAleatoria <= 700){
+            temporizador();
+            statusVida.fome -=1
+            statusVida.dinheiro += 200;
+            console.log('PARABÉNS!! VOCê CONSEGUIU UM PATROCINADOR!!');
+            console.log('Você recebeu 200R$ do patrocinador!!');
+            console.log();
+            console.log(`Seus status foram atualizados, agora você tem ${statusVida.dinheiro}R$`);
+            console.table(statusVida);
+
+        }if(noticiaAleatoria > 700 && noticiaAleatoria < 970){
+            temporizador();
+            statusVida.fome +=1
+            statusVida.dinheiro += 500;
+            console.log('PARABÉNS!! VOCê CONSEGUIU UMA PARTICIPAÇÃO EM UM PROGRAMA DE TV!!!!');
+            console.log('Você recebeu 500R$ do PROGRAMA DE TV!!');
+            console.log();
+            console.log(`Seus status foram atualizados, agora você tem ${statusVida.dinheiro}R$`);
+            console.table(statusVida);
+
+        }
+        if(noticiaAleatoria >= 970){
+
+            temporizador();
+            statusVida.fome -=1
+            statusVida.dinheiro += 700;
+            console.log('PARABÉNS!! VOCê SE TORNOU A CARA DA BLUE EdTech!!!!');
+            console.log('Você recebeu 700R$ da BLUE!!');
+            console.log();
+            console.log(`Seus status foram atualizados, agora você tem ${statusVida.dinheiro}R$`);
+            console.table(statusVida);
+
+        }
+        if(noticiaAleatoria >= 990){
+           temporizador();
+                console.log('PARABÉNS, VOCÉ VAI SAIR NA REVISTA VEJO. SEMPRE FOI SEU SONHO, PORÉM VOCÊ TEM QUE IR ATÉ LÁ AGORA!!! ');
+                perguntaSeria = prompt('Antes de ir até a vejo, deseja tomar uma cerveja para comemorar a noticia? ');
+
+                if(perguntaSeria == 'sim'){
+                    while(true){
+                    console.log(`Ao caminho da vejo, ${personagem.nome} se envolveu em um acidente e acabou não resistindo!!!`);
+                    console.log(`Se for beber para comemorar algo, não dirija. Assim como foi ${personagem.nome}, pode ser você.`);
+                    console.log();
+                    break
+                    }
+                if(perguntaSeria == 'nao'){
+
+                    console.log(`${personagem.nome} foi até a vejo para tirar as fotos, logo depois, recebeu a proposta milionaria do Barcelona.`);
+                    let aceitar = prompt('Deseja aceitar a proposta? ');
+                    if(aceitar == 'sim'){
+                       while(iniciarGame= 'sim'){
+                           console.log('VOCÊ FOI CONTRATATO PELO BARCELONA. COM ISSO VOCÊ CUMPRE O OBJETIVO DO JOGO: SUBIR PARA SERIE A.');
+                           console.log('PARABÉNS!!!');
+                           console.log('FIM'); 
+                           break
+                       }
+                    }else{
+                        console.log('VOCÊ RECUSOU O BARCELONA E IRÁ CONTINUAR JOGANDO O JOGO!!');
+                }    
+              }
+             }
+            }
+        }
   }
+
+
 
 function temporizador(resposta){
 
@@ -90,7 +231,7 @@ if(decisao == 1){
 }else if(decisao == 6){
     tempo.hora = tempo.hora + 7
 }
-    if(tempo.hora >= 24){
+    if(tempo.hora >= 24 || decisao == 6){
         tempo.hora = dormir;
          tempo.dia++
     }

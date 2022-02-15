@@ -3,8 +3,13 @@ var prompt = require("prompt-sync")();
 console.clear();
 let iniciarGame = "sim";
 while(iniciarGame == 'sim'){
+let timeAleatorio;
+let campeonato = {vitorias: 0, derrotas: 0, impates: 0};
+let timeRival;
+let resultadoAdversario;
 let decisao;
 let menu;
+let placar = {Meu_time: 0, time_adversario: 0};
 //todas as variaveis usadas no projeto.
 let genero = ["vazio", "feminino", "masculino"];
 validarGenero = [0, 1, 2];
@@ -308,6 +313,7 @@ let durante;
       temporizador();
       console.log("A REFEIÇÃO ESTAVA DELICIOSA!!");
       statusVida.fome -= 1;
+      console.table(statusVida);
     }
     //PERGUNTA 5
     else if (decisao == 5) {
@@ -357,15 +363,12 @@ let durante;
 
   function temporizador(resposta) {
     
-     tempo.hora += 2;
+     tempo.hora += 3;
    
     if (tempo.hora >= 24 || decisao == 6) {
       tempo.hora = dormir;
       casa.aluguel -=1
       tempo.dia++;
-    }
-    if(casa.aluguel == 0){
-      console.log('LEMBRETE!! PAGAR O ALUGUEL EM COMPRAS NECESSARIAS!! VALOR 200R$');
     }
     return [tempo.hora, tempo.dia];
   }
@@ -407,7 +410,7 @@ let durante;
         );
         console.log();
         console.log(
-          "O jogo acontece na serie B do campeonato brasileiro. Você é um jogador novato que está em busca da fama e conhecimento. Seu objetivo principal é fazer sua equipe subir para serie A no final de 20 partidas."
+          "O jogo acontece na serie B do campeonato brasileiro. Você é um jogador novato que está em busca da fama e conhecimento. Seu objetivo principal é fazer sua equipe subir para serie A no final de 10 partidas."
         );
         console.log(
           "Você consegue controlar o dia a dia do jogador, o jogo se intercala em um dia normal e um dia disputando a partida do campeonato brasileiro."
@@ -849,6 +852,7 @@ let durante;
         aleatorio = Math.floor(Math.random() * campeonatoBrasileiroB.length);
         time = campeonatoBrasileiroB[aleatorio];
         personagem.time = time;
+        campeonatoBrasileiroB.splice(aleatorio, 1);
         console.log();
         console.log(
           `Boas-vindas ao ${time}, aqui começa sua jornada. A partir de agora é foco total, estamos confiante que com sua chegada a equipe nós iremos consiguir subir para serie A do campeonato brasileiro. `
@@ -916,6 +920,144 @@ let durante;
       passagemDia(tempo.hora);
       console.table(statusVida);
       console.log();
+      
+      const roteiroJogo = (roteiroJogo) => {
+      console.log(`Agora são ${tempo.hora} ${durante}, Dia ${tempo.dia}`);
+      console.log();
+      console.log("Abaixo escolha sua proxima ação... ");
+      console.log();
+      perguntasInicias();
+      console.log();
+      decisao = prompt("");
+      console.log();
+      verificarPerguntas(decisao);
+      console.log();
+      
+
+      }
+
+      function timeAdversario(){
+
+        timeAleatorio = Math.floor(Math.random() * campeonatoBrasileiroB.length);
+        resultadoAdversario = campeonatoBrasileiroB[timeAleatorio];
+        timeRival = resultadoAdversario;
+console.log();
+        console.log(`Hoje seu iremos enfrentar o ${timeRival}, vamos em buscar se conquistar mais 1 ponto na tabela. `);
+console.log();
+      campeonatoBrasileiroB.splice(timeAleatorio,1);
+
+      return timeRival;
+
+      }
+
+      function passarDia(adversario){
+
+        console.log('');
+
+        timeAdversario();
+
+          
+        for(let tempo = 1; tempo <= 2; tempo++){
+
+          if(tempo == 1){
+          console.log(`Hoje Iremos enfrentar o ${timeRival}`);
+          console.log();
+          console.log(`PRIMEIRO TEMPO COMEÇOU`);
+          console.log();
+
+          }else if(tempo == 2){
+            console.log(`SEGUNDO TEMPO COMEÇOU`);
+          }
+        
+          if(tempo==1){
+
+            let chances = Math.floor(Math.random()* 100);
+
+            if(chances > 50){
+
+            let adversario = Math.floor(Math.random()*10);
+            let meuTime = Math.floor(Math.random()*10);
+
+            if(meuTime > adversario){
+               console.log(`${personagem.time} Marcou um gol!!!`);
+               placar.Meu_time++
+            }else if(meuTime < adversario){
+              console.log(`${timeRival} Marcou um goll!!!`);
+              placar.time_adversario++
+
+            }
+          }else if(chances < 50){
+            console.log(`O primeiro tempo se passou e nenhum gol foi marcado. Breve irá começar o segundo tempo.`);
+          }
+            console.log();
+            console.log(`Resultado do 1° tempo foi: ${placar.Meu_time} X ${placar.time_adversario}`);
+            console.log();
+          }
+          else if(tempo==2){
+
+            let chances = Math.floor(Math.random()* 100);
+
+            if(chances > 50){
+            let adversario = Math.floor(Math.random()*10);
+            let meuTime = Math.floor(Math.random()*10);
+            if(meuTime > adversario){
+               console.log(`${personagem.time} Marcou um gol!!!`);
+            }else if(meuTime < adversario){
+              console.log(`${timeRival} Marcou um goll!!!`);
+              placar.time_adversario++
+            }
+
+            }
+            else if(chances < 50){
+              console.log(`No segundo tempo não aconteceram nenhum gol. A partida terminou`);
+            }
+            console.log();
+            console.log(`Resultado do 2° tempo foi : ${placar.Meu_time} X ${placar.time_adversario}`);
+            console.log();
+          }
+        
+        }
+
+        if(placar.Meu_time > placar.time_adversario){
+          campeonato.vitorias++
+          console.log(`${personagem.time} Venceu a partida e conquistou mais 1 ponto`);
+        }else if(placar.Meu_time < placar.time_adversario){
+          console.log(`${timeRival} ganhou a partida!!!`);
+          campeonato.derrotas++
+        }else if(placar.Meu_time == placar.time_adversario){
+          console.log("O jogo terminou no empate!!!");
+          campeonato.impates++
+        }
+        
+        console.log(`O dia está finalizando, amanhã é um novo dia. Prepare-se para mais partidas.`);
+
+        decisao = 6;
+
+        temporizador();
+
+      }
+
+      function diaDia(){
+        roteiroJogo();
+        
+
+        roteiroJogo();
+        
+
+        roteiroJogo();
+        
+
+        roteiroJogo();
+
+
+        console.log("Obs: Na proxima ação você deve dormir!!");
+
+        
+        roteiroJogo();
+        
+      }
+
+
       console.log(
         `SEU DESPERTADOR TOCOU E VOCÊ ACORDOU .HOJE É SEU PRIMEIRO DIA, VOCÊ PODE RECEBER LIGAÇÃO DO ${personagem.time} PARA MAIS INFORMAÇÕES SOBRE OS TREINOS E OUTRAS COISAS.`
       );
@@ -931,15 +1073,12 @@ let durante;
 
       decisao = prompt("");
 
-      passagemDia(tempo.hora);
-
       if (decisao == 1) {
         console.log(
           `${personagem.nome} recebeu a ligação do clube avisando que hoje é dia de treino intensivo, o treinamento começara as 17 horas. ${personagem.nome} precisa comprar uma chuteira,pois, a sua está totalmente surrada!!`
         );
         console.log();
         temporizador();
-        console.log(`Agora são ${tempo.hora} ${durante}`);
         console.log();
       }
       if (decisao == 2) {
@@ -948,25 +1087,98 @@ let durante;
         );
         console.log();
         temporizador();
-        console.log(`Agora são ${tempo.hora} ${durante}`);
         console.log();
       }
 
-      const roteiroJogo = (roteiroJogo) => {
+      diaDia();
+      passarDia();
+      console.clear();
+      diaDia();
+      passarDia();
+      console.clear();
+      diaDia();
+      passarDia();
+      console.clear();
+      diaDia();
+      passarDia();
+      console.clear();
+      diaDia();
+      passarDia();
+      console.clear();
+      diaDia();
+      passarDia();
+      console.clear();
+      diaDia();
+      passarDia();
+      console.clear();
+      diaDia();
+      passarDia();
+      console.clear();
+      diaDia();
+      passarDia();
+      console.clear();
+      diaDia();
+      passarDia();
+      console.clear();
 
-      console.log("Abaixo escolha sua proxima ação... ");
+      console.log(`enfim o campeonato chegou ao fim, Agora iremos ver se conseguimos os resultados necessarios para conseguirmos subir para Serie A do campeonato brasileiro.`);
       console.log();
-      perguntasInicias();
+
+      console.log('Assim ficou seus status no campeonato');
+      console.table(campeonato)
       console.log();
-      decisao = prompt("");
-      console.log();
-      verificarPerguntas(decisao);
-      console.log();
-      console.log(`Agora são ${tempo.hora} ${durante}`);
+
+      if(campeonato.vitorias == 10){
+         
+        console.log(`De maneira incrivel, ${personagem.time} venceu todos as partidas e subiu para Serie A do campeonato brasileiro. `);
+        console.log();
+        console.log('Abaixo confira todos os seus status de personagem e habilidades. ');
+        console.log();
+        console.table(personagem);
+        console.log();
+        console.table(status);
+        console.log();
+
+        console.log('Obrigado por ter jogado nosso game, espero que tenha gostado e volte sempre. Me dê dicas no que posso melhorar e coisas para implementar mais!!')
+      }
+
+      else if(campeonato.vitorias >= 4 || campeonato.derrotas <= 3 || campeonato.impates <= 3){
+
+        console.log(`Por conta de uma tabela muito disputado, ${personagem.time} conseguiu conquistar as vitorias que precisava para subir para serie A`);
+        console.log();
+        console.log('Abaixo confira todos os seus status de personagem e habilidades. ');
+        console.log();
+        console.table(personagem);
+        console.log();
+        console.table(status);
+        console.log();
+
+        console.log('Obrigado por ter jogado nosso game, espero que tenha gostado e volte sempre. Me dê dicas no que posso melhorar e coisas para implementar mais!!')
 
       }
 
-      roteiroJogo();
+      else if(campeonato.vitorias <= 3){
+
+        console.log(`${personagem.time} Infelizmente não conseguiu conquistar sua vaga na serie A, Terá que ficar para o proximo ano. `);
+        console.log();
+        console.log('Abaixo confira todos os seus status de personagem e habilidades. ');
+        console.log();
+        console.table(personagem);
+        console.log();
+        console.table(status);
+        console.log();
+
+        console.log('Obrigado por ter jogado nosso game, espero que tenha gostado e volte sempre. Me dê dicas no que posso melhorar e coisas para implementar mais!!')
+        
+      }
+      
+
+    
+
+      
+
+
+
       
 
 

@@ -1170,26 +1170,7 @@ console.log();
 
         console.log('Obrigado por ter jogado nosso game, espero que tenha gostado e volte sempre. Me dê dicas no que posso melhorar e coisas para implementar mais!!')
         
-      }
-      
-
-    
-
-      
-
-
-
-      
-
-
-      
-
-
-
-
-
-
-      
+      }    
     }
 }
 iniciarGame=prompt('deseja recomeçar o jogo novamente? ');

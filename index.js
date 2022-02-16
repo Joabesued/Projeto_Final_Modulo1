@@ -317,7 +317,6 @@ let durante;
     }
     //PERGUNTA 5
     else if (decisao == 5) {
-      temporizador();
       if (tempo.hora >= 16 && tempo.hora <= 17) {
         console.log(
           "VOCÊ CHEGOU NO HORARIO DO TREINO. POR ISSO VAI RECEBER UM EXTRA!!!"
@@ -348,8 +347,8 @@ let durante;
         console.log("CONFIRA ABAIXO SEUS NOVOS STATUS: ");
         console.table(statusVida);
       }
-      //PERGUNTA 6
-    } else if (decisao == 6) {
+      temporizador();
+      } else if (decisao == 6) {
       console.log("CONFIRA COMO FICOU SEUS STATUS HOJE: ");
       console.table(statusVida);
       console.log();
@@ -385,7 +384,7 @@ let durante;
     }
     return durante;
   }
-
+  
   console.log("---Bem-vindo ao Vida futebolista---");
   
     console.log();
@@ -922,6 +921,7 @@ let durante;
       console.log();
       
       const roteiroJogo = (roteiroJogo) => {
+      passagemDia(tempo.hora);
       console.log(`Agora são ${tempo.hora} ${durante}, Dia ${tempo.dia}`);
       console.log();
       console.log("Abaixo escolha sua proxima ação... ");
@@ -942,7 +942,7 @@ let durante;
         resultadoAdversario = campeonatoBrasileiroB[timeAleatorio];
         timeRival = resultadoAdversario;
 console.log();
-        console.log(`Hoje seu iremos enfrentar o ${timeRival}, vamos em buscar se conquistar mais 1 ponto na tabela. `);
+        console.log(`Hoje seu iremos enfrentar o ${timeRival}, vamos em buscar para conquistar mais 1 ponto na tabela. `);
 console.log();
       campeonatoBrasileiroB.splice(timeAleatorio,1);
 
@@ -1002,6 +1002,7 @@ console.log();
             let meuTime = Math.floor(Math.random()*10);
             if(meuTime > adversario){
                console.log(`${personagem.time} Marcou um gol!!!`);
+               placar.Meu_time++
             }else if(meuTime < adversario){
               console.log(`${timeRival} Marcou um goll!!!`);
               placar.time_adversario++
@@ -1029,7 +1030,7 @@ console.log();
           campeonato.impates++
         }
         
-        console.log(`O dia está finalizando, amanhã é um novo dia. Prepare-se para mais partidas.`);
+        console.log(`O dia está finalizado, amanhã é um novo dia. Prepare-se para mais partidas.`);
 
         decisao = 6;
 
@@ -1038,8 +1039,6 @@ console.log();
       }
 
       function diaDia(){
-        roteiroJogo();
-        
 
         roteiroJogo();
         
@@ -1048,13 +1047,10 @@ console.log();
         
 
         roteiroJogo();
-
-
-        console.log("Obs: Na proxima ação você deve dormir!!");
-
         
+        console.log(`Na proxima decisão, é necessario que durma.`);
         roteiroJogo();
-        
+
       }
 
 
@@ -1092,34 +1088,33 @@ console.log();
 
       diaDia();
       passarDia();
-      console.clear();
+
       diaDia();
       passarDia();
-      console.clear();
+
       diaDia();
       passarDia();
-      console.clear();
+
       diaDia();
       passarDia();
-      console.clear();
+
       diaDia();
       passarDia();
-      console.clear();
+
       diaDia();
       passarDia();
-      console.clear();
+
       diaDia();
       passarDia();
-      console.clear();
+
       diaDia();
       passarDia();
-      console.clear();
+
       diaDia();
       passarDia();
-      console.clear();
+
       diaDia();
       passarDia();
-      console.clear();
 
       console.log(`enfim o campeonato chegou ao fim, Agora iremos ver se conseguimos os resultados necessarios para conseguirmos subir para Serie A do campeonato brasileiro.`);
       console.log();
